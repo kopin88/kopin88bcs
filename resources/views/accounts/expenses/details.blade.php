@@ -1,0 +1,142 @@
+<label for="">အသုံးစရိတ်</label>
+<table class="table table-hover table-striped table-bordered kopin-font">
+    <thead class="text-primary">
+    <th class="text-center" width="120px;"><strong>နေ့စွဲ</strong></th>
+    <th class="text-center"><h5><strong>အကြောင်းအရာ</strong></h5></th>
+    <th class="text-center"><h5><strong>ငွေထုတ်သူ</strong></h5></th>
+    <th class="text-center"><h5><strong>ငွေစာရင်း ခေါင်းစဉ်</strong></h5></th>
+    <th class="text-center"><h5><strong>ငွေပမာဏ</strong></h5></th>
+    <th class="text-center"><h5><strong>မှတ်ချက်</strong></h5></th>
+    @foreach (Auth::user()->roles as $key => $navrole)
+      @if ($navrole->name == "Administrator")
+        {{-- <th class="text-center" colspan="2" width="80px">
+          <a href="#TitleAccount" data-toggle="tab">
+            <i class="material-icons">add_circle_outline</i>
+            <strong>အသုံးစရိတ်</strong>
+            <div class="ripple-container"></div>
+          </a>
+        </th> --}}
+        <th class="text-center" colspan="2" width="80px">
+          <strong>ပြင် / ဖျက်</strong>
+        </th>
+      @elseif ($navrole->name == "Account Manager")
+        {{-- <th class="text-center" colspan="2" width="80px">
+          <a href="#TitleAccount" data-toggle="tab">
+            <i class="material-icons">add_circle_outline</i>
+            <strong>အသုံးစရိတ်</strong>
+            <div class="ripple-container"></div>
+          </a>
+        </th> --}}
+        <th class="text-center" colspan="2" width="80px">
+          <strong>ပြင် / ဖျက်</strong>
+        </th>
+      @elseif ($navrole->name == "Account Write")
+        {{-- <th class="text-center" colspan="2" width="80px">
+          <a href="#" data-toggle="#ExpenseCreate">
+            <i class="material-icons">add_circle_outline</i>
+            <strong>အသုံးစရိတ်</strong>
+            <div class="ripple-container"></div>
+          </a>
+        </th> --}}
+        <th class="text-center" colspan="2" width="80px">
+          <strong>ပြင် / ဖျက်</strong>
+        </th>
+      @endif
+    @endforeach
+
+  </thead>
+  <tbody>
+    @foreach ($month->expenses->sortBy('date') as $key => $expense)
+      <tr>
+        <td class="text-center">{{ date('d - M - Y', strtotime($expense->date)) }}</td>
+        <td>{{ $expense->description }}</td>
+        <td>{{ $expense->name }}</td>
+        <td>{{ $expense->expense_head->name }}</td>
+        <td class="text-right">
+          @php
+            $amount = $expense->amount
+          @endphp
+          {{ number_format($amount) }}
+        </td>
+        <td></td>
+        @foreach (Auth::user()->roles as $key => $navrole)
+          @if ($navrole->name == "Administrator")
+            <td class="text-center">
+              <button type="button" rel="tooltip" title="ပြင်မည်" class="btn btn-success btn-round btn-circle btn-xs" style="padding:3px;">
+                <i class="material-icons" data-toggle="modal" data-target="#ExpenseEdit{{ $expense->id }}">edit</i>
+              </button>
+            </td>
+            @include('accounts.expenses._edit')
+            <td class="text-center">
+                {!! Form::model($expense, ['route' => ['expenses.destroy', $expense->id], 'method' => 'DELETE', 'class' => 'form-horizontal']) !!}
+                  <button type="submit" rel="tooltip" title="ဖျက်မည်" class="btn btn-danger btn-round btn-circle btn-xs" style="padding:3px;">
+                    <i class="material-icons">close</i>
+                  </button>
+                {!! Form::close() !!}
+            </td>
+          @elseif ($navrole->name == "Account Manager")
+            <td class="text-center">
+              <button type="button" rel="tooltip" title="ပြင်မည်" class="btn btn-success btn-round btn-circle btn-xs" style="padding:3px;">
+                <i class="material-icons" data-toggle="modal" data-target="#ExpenseEdit{{ $expense->id }}">edit</i>
+              </button>
+            </td>
+            @include('accounts.expenses._edit')
+            <td class="text-center">
+                {!! Form::model($expense, ['route' => ['expenses.destroy', $expense->id], 'method' => 'DELETE', 'class' => 'form-horizontal']) !!}
+                  <button type="submit" rel="tooltip" title="ဖျက်မည်" class="btn btn-danger btn-round btn-circle btn-xs" style="padding:3px;">
+                    <i class="material-icons">close</i>
+                  </button>
+                {!! Form::close() !!}
+            </td>
+          @elseif ($navrole->name == "Account Write")
+            <td class="text-center">
+              <button type="button" rel="tooltip" title="ပြင်မည်" class="btn btn-success btn-round btn-circle btn-xs" style="padding:3px;">
+                <i class="material-icons" data-toggle="modal" data-target="#ExpenseEdit{{ $expense->id }}">edit</i>
+              </button>
+            </td>
+            @include('accounts.expenses._edit')
+            <td class="text-center">
+                {!! Form::model($expense, ['route' => ['expenses.destroy', $expense->id], 'method' => 'DELETE', 'class' => 'form-horizontal']) !!}
+                  <button type="submit" rel="tooltip" title="ဖျက်မည်" class="btn btn-danger btn-round btn-circle btn-xs" style="padding:3px;">
+                    <i class="material-icons">close</i>
+                  </button>
+                {!! Form::close() !!}
+            </td>
+          @endif
+        @endforeach
+
+      </tr>
+    @endforeach
+
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="text-center" colspan="4"><strong>စုစုပေါင်း ငွေပမာဏ</strong></td>
+      <td class="text-right">
+        <strong>
+          @php
+              $total=0;
+              foreach ($month->expenses as $expense)
+              {
+                  $total+= $expense->amount;
+              }
+            @endphp
+            {{ number_format($total) }}
+          </strong>
+      </td>
+      <td>  </td>
+      @foreach (Auth::user()->roles as $key => $navrole)
+        @if ($navrole->name == "Administrator")
+          <td>  </td>
+          <td>  </td>
+        @elseif ($navrole->name == "Account Manager")
+          <td>  </td>
+          <td>  </td>
+        @elseif ($navrole->name == "Account Write")
+          <td>  </td>
+          <td>  </td>
+        @endif
+      @endforeach
+    </tr>
+  </tfoot>
+</table>

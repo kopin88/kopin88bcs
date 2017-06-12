@@ -6,8 +6,23 @@
  */
 
 require('./bootstrap');
+require('./jquery.sharrre');
+// require('./bootstrap-datetimepicker');
+// require('./jquery-jvectormap');
+// require('./nouislider.min');
+// require('./map-api');
+// require('./jquery.select-bootstrap');
+// require('./sweetalert2');
+require('./jasny-bootstrap.min');
+// require('./fullcalendar.min');
+// require('./jquery.tagsinput');
+require('./material-dashboard');
+require('./demo');
+require('./kopin');
 
-window.Vue = require('vue');
+
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,8 +30,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-
-const app = new Vue({
-    el: '#app'
-});
+// Vue.component('example', require('./components/Example.vue'));
+//
+// const app = new Vue({
+//     el: '#app'
+// });

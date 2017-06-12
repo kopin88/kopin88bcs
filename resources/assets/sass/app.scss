@@ -1,9 +1,32 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+// @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+
+// Other
+@import "kopin";
+@import "jasny-bootstrap.min";
+
+// Bootstrap Material Design
+// @import "node_modules/bootstrap-material-design/sass/md";
+@import "material-dashboard";
+@import "demo";
+
+// Font Awesome
+@import "~font-awesome/scss/font-awesome";
+// @import "font-awesome.min";
+@import "fonts";
+
+
+html{
+  border-style: inset;
+
+  align-items: baseline;
+}
